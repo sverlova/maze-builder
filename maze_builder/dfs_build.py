@@ -1,4 +1,5 @@
 from maze_builder.maze import *
+import random
 
 class DFSMaze(Maze):
 
@@ -13,11 +14,12 @@ class DFSMaze(Maze):
             if x > 0 and y > 0 and x < self.shape[0] and y < self.shape[1] and (not self.visited[x][y]):
                 free_neighbours.append((x, y))
         while len(free_neighbours) > 0:
-            _next = random.randint(0, len(free_neighbours))
+            _next = random.randint(0, len(free_neighbours) - 1)
             # choose where to go now
             free_neighbours[-1], free_neighbours[_next] = free_neighbours[_next], free_neighbours[-1]
-            self.graph[(i + free_neighbours[-1][0]) // 2][(j + free_neighbours[-1][1]) // 2] = 1
-            # take the wall between cells away
+            if not self.visited[free_neighbours[-1][0]][free_neighbours[-1][1]]:
+                self.graph[(i + free_neighbours[-1][0]) // 2][(j + free_neighbours[-1][1]) // 2] = 1
+                # take the wall between cells away
             self.dfs(*free_neighbours.pop())
             # go
 

@@ -22,14 +22,7 @@ class Maze:
         self.size = (self.shape[0] // 2, self.shape[1] // 2)
         # n is height, m is width
         self.graph = [ [ int(lines[j][i] != '#') for i in range(self.shape[1])] for j in range(self.shape[0]) ]
-        # 0 for wall and 1 for path
-        # initialized with full-filled maze
-        # looks like this: (for size = (2, 3))
-        # #######
-        # # # # #
-        # #######
-        # # # # #
-        # #######
+
 
     def __init__(self, n, m=None):
         if m == None:
@@ -49,3 +42,8 @@ class Maze:
                 # path
             s += '\n'
         return s
+
+    def get_lines(self):
+        s = self.__str__()
+        lines = [ s[i * (self.shape[1] + 1) : (i + 1) * (self.shape[1] + 1) - 1] for i in range(self.shape[0]) ]
+        return lines

@@ -1,5 +1,6 @@
 from maze_builder.dfs_build import *
 from maze_builder.spanning_tree_build import *
+from maze_builder.maze_solver import *
 from functools import wraps
 
 def wrong_option():
@@ -76,7 +77,7 @@ def read_maze():
     with open(filename, 'r') as f:
         for line in f:
             if line != '':
-                lines.append(line)
+                lines.append(line[:-1])
     return Maze(lines)
 
 def get_maze():
@@ -91,11 +92,12 @@ def get_maze():
 
 @cycle
 def choose_action_with_maze():
-    options = [0, 1, 2]
+    options = [0, 1, 2, 3]
     print('''
 Where to put a maze?
 1. Print here
 2. Save into file
+3. Show solution
 0. Nowhere. Exit
     ''')
     option = int(input())
@@ -114,6 +116,10 @@ def actions_with_maze(maze):
         filename = input()
         with open(filename, 'w') as f:
             f.write(maze.__str__())
+    elif option == 3:
+        solver = MazeSolver(maze.get_lines())
+        solver.solve()
+        print(solver)
 
 
 def run():
